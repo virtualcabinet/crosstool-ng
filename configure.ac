@@ -182,18 +182,19 @@ ACX_PATH_TOOL_REQ([PATCH], [gpatch patch])
 # And a bunch of less boring tests...
 #--------------------------------------------------------------------
 # We need a bash that is >= 3.1
+
 AC_CACHE_VAL([ac_cv_path__BASH],
-    [AC_ARG_WITH([bash],
-        AS_HELP_STRING([--with-bash=PATH],
-                       [Specify the full PATH to GNU bash >= 3.1]),
+    [AC_ARG_WITH([bash], 
+        AS_HELP_STRING([--with-bash=PATH], [Specify the full PATH to GNU bash >= 3.1]),
         [ac_cv_path__BASH=$withval])])
-AC_CACHE_CHECK([for bash >= 3.1], [ac_cv_path__BASH],
-    [AC_PATH_PROGS_FEATURE_CHECK([_BASH], [bash],
-        [[_BASH_ver=$($ac_path__BASH --version 2>&1 \
-                     |$EGREP '^GNU bash, version (3\.[1-9]|4)')
-          test -n "$_BASH_ver" && ac_cv_path__BASH=$ac_path__BASH ac_path__BASH_found=:]],
-        [AC_MSG_RESULT([no])
-         AC_MSG_ERROR([could not find bash >= 3.1])])])
+AC_CACHE_CHECK([for bash >= 3.1], 
+    [ac_cv_path__BASH], 
+    [AC_PATH_PROGS_FEATURE_CHECK([_BASH], [bash], 
+        [[_BASH_ver=$($ac_path__BASH --version 2>&1 | $EGREP '^GNU bash, version (3\.[1-9]|4|5)'); test -n "$_BASH_ver" && 
+            ac_cv_path__BASH=$ac_path__BASH ac_path__BASH_found=:]],
+        [AC_MSG_RESULT([no] AC_MSG_ERROR([could not find bash >= 3.1]))]
+    )]
+)
 AC_SUBST([_BASH], [$ac_cv_path__BASH])
 
 # We need a awk that *is* GNU awk
